@@ -6,9 +6,10 @@ import { zodToJsonSchema } from "zod-to-json-schema";
 const apiClient = {
   trend: async (query: string) => {
     const apiKey = process.env.ALPHAVANTAGE_API_KEY;
-    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&keywords=${encodeURIComponent(
-      query
-    )}&apikey=${apiKey}`;
+    // console.log("API Key:", apiKey);
+    // console.log("Search Query:", query);
+
+    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${query}&apikey=${apiKey}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -16,9 +17,11 @@ const apiClient = {
 
     if (!response.ok) {
       throw new Error("API request failed");
+      console.error("API request failed:", response.statusText);
     }
 
     const data = await response.json();
+    console.log("API Response:", data);
     return data
   },
 };
@@ -31,9 +34,9 @@ export const tools: [
   {
     type: "function",
     function: {
-      name: "web_search",
+      name: "stock_trend",
       description:
-        "Search the web for a given query, will return details about anything including business",
+        "Provides market trends based on a search query. Use this to find information about market trends, stock prices, and other financial data.",
       parse: (input) => {
         return JSON.parse(input) as { searchQuery: string };
       },

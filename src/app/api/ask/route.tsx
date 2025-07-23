@@ -34,11 +34,11 @@ export async function POST(req: NextRequest) {
     messages: [
       {
         role: "system",
-        content: `You are a business research assistant just like crunchbase. You answer questions about a company or domain.
-given a company name or domain, you will search the web for the latest information.
-
-at the end of your response, add a form with single input field to ask for follow up questions.
-`,
+        content: `You are a stock market analyst . Always use tool "stock_trend" to provide market trends
+        with strictly the ticker symbol of the stock as the input . 
+        Use this to find information about market trends, stock prices, and other financial data.
+        Always render interactive charts and graphs in your response.
+        `,
       },
       ...messages,
     ],
