@@ -78,6 +78,13 @@ const apiClient = {
 
 };
 
+/**
+ * Array of tool functions for stock market analysis:
+ * 1. stock_trend_monthly - Get monthly historical data for a stock symbol
+ * 2. stock_quote - Get current stock quote and trading information
+ * 3. stock_trend_intraday - Get intraday (5-min interval) price data
+ * 4. market_sentiment - Get news sentiment analysis for a stock
+ */
 export const tools: [
   RunnableToolFunctionWithParse<{
     searchQuery: string;
@@ -88,6 +95,13 @@ export const tools: [
   RunnableToolFunctionWithParse<{ searchQuery: string; }>,
   RunnableToolFunctionWithParse<{ searchQuery: string; }>
 ] = [
+        /**
+     * Monthly Stock Trend Tool
+     * - Returns historical monthly price data for a given stock symbol
+     * - Uses TIME_SERIES_MONTHLY AlphaVantage API endpoint
+     * - Includes monthly open, high, low, close prices and volume
+     * - Useful for long-term trend analysis and historical performance
+     */
     {
       type: "function",
       function: {
@@ -111,6 +125,13 @@ export const tools: [
         strict: true,
       },
     },
+        /**
+     * Stock Quote Tool
+     * - Returns real-time stock quote data
+     * - Uses GLOBAL_QUOTE AlphaVantage API endpoint
+     * - Provides current price, volume, high/low, open/close
+     * - Best for getting current market snapshot
+     */
     {
       type: "function",
       function: {
@@ -134,6 +155,13 @@ export const tools: [
         strict: true,
       },
     },
+        /**
+     * Intraday Stock Trend Tool
+     * - Returns high-frequency price data at 5-minute intervals
+     * - Uses TIME_SERIES_INTRADAY AlphaVantage API endpoint
+     * - Provides detailed price movements throughout trading day
+     * - Ideal for day trading analysis and short-term patterns
+     */
     {
       type: "function",
       function: {
@@ -157,6 +185,13 @@ export const tools: [
         strict: true,
       },
     },
+        /**
+     * Market Sentiment Analysis Tool
+     * - Analyzes news sentiment and market mood for a stock
+     * - Uses NEWS_SENTIMENT AlphaVantage API endpoint
+     * - Provides sentiment scores from news articles and social media
+     * - Helps gauge market perception and potential price movements
+     */
     {
       type: "function",
       function: {
