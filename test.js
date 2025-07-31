@@ -2,7 +2,7 @@
 var request = require('request');
 const apiKey = process.env.ALPHAVANTAGE_API_KEY;
 // replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
-var url = `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=AAPL&apikey=${apiKey}`;
+var url = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=AAPL&apikey=${apiKey}`;
 
 
 request.get({

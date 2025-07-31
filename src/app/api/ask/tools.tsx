@@ -17,7 +17,7 @@ const apiClient = {
     }
 
     const data = await response.json();
-    console.log("Called quote with query:", query);
+    console.log("Called Quote Tool with query:", query);
     return data;
   },
   monthlyTrend: async (query: string) => {
@@ -37,7 +37,7 @@ const apiClient = {
     }
 
     const data = await response.json();
-    console.log("Called monthly trend with query:", query);
+    console.log("Called Monthly Trend Tool with query:", query);
     return data
   },
   intradayTrend: async (query: string) => {
@@ -56,7 +56,7 @@ const apiClient = {
     }
 
     const data = await response.json();
-    console.log("Called intraday with query:", query);
+    console.log("Called Intra-day Trend Tool with query:", query);
     return data
   },
   marketSentiment: async (query: string) => {
@@ -72,7 +72,23 @@ const apiClient = {
     }
 
     const data = await response.json();
-    console.log("Called Market Sentiment with query:", query);
+    console.log("Called Market Sentiment Tool with query:", query);
+    return data;  
+  },
+  companyOverview: async (query: string) => {
+    const apiKey = process.env.ALPHAVANTAGE_API_KEY;
+    const url = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${query}&apikey=${apiKey}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+    });
+ 
+    if (!response.ok) {
+      return response.statusText; // Return the status text for debugging
+    }
+
+    const data = await response.json();
+    console.log("Called Company Overview tool with query:", query);
     return data;  
   }
 
@@ -93,7 +109,8 @@ export const tools: [
     searchQuery: string;
   }>,
   RunnableToolFunctionWithParse<{ searchQuery: string; }>,
-  RunnableToolFunctionWithParse<{ searchQuery: string; }>
+  RunnableToolFunctionWithParse<{ searchQuery: string; }>,
+   RunnableToolFunctionWithParse<{ searchQuery: string; }>
 ] = [
         /**
      * Monthly Stock Trend Tool
@@ -198,7 +215,7 @@ export const tools: [
         name: "market_sentiment",
         description:
           `Provides market sentiment based on a search query. Use this to find information about
-         market trends, stock prices, and other financial data.`,
+         market sentiment and other financial data.`,
         parse: (input) => {
           return JSON.parse(input) as { searchQuery: string };
         },
@@ -214,5 +231,36 @@ export const tools: [
         },
         strict: true,
       },
-    }
+    },
+        /**
+     * Company Overview Tool
+     * - Provides detailed company information and financials
+     * - Uses OVERVIEW AlphaVantage API endpoint
+     * - Includes market cap, P/E ratio, earnings, and more
+     * - Useful for fundamental analysis and company research
+     */
+    {
+      type: "function",
+      function: {
+        name: "company_overview",
+        description:
+          `Provides company overview based on a search query. Use this to find information about
+         company details, stock prices, and other financial data.`,
+        parse: (input) => {
+          return JSON.parse(input) as { searchQuery: string };
+        },
+        parameters: zodToJsonSchema(
+          z.object({
+            searchQuery: z.string().describe("search query"),
+          })
+        ) as JSONSchema,
+        function: async ({ searchQuery }: { searchQuery: string }) => {
+          const results = await apiClient.companyOverview(searchQuery);
+
+          return JSON.stringify(results);
+        },
+        strict: true,
+      },
+    },
+    
   ];
