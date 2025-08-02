@@ -34,11 +34,18 @@ export async function POST(req: NextRequest) {
     messages: [
       {
         role: "system",
-        content: `You are a stock market analyst . Answer queries of user based on the tools data.
-        Use tools according to the user request and necessity . Muliple tools can be used in a single request.
+        content: `You are a stock market analyst. Answer queries of user based on the tools data.
+        Use tools according to the user request and necessity. Multiple tools can be used in a single request.
         Strictly use ticker symbol as input to the tools.
         Use the tools to find information about market trends, stock prices, and other financial data.
-        Mandatory rendering of interactive charts and graphs in your response.
+        
+        Your response MUST always include:
+        1. Interactive charts and graphs for visual analysis
+        2. A button labeled "Company Overview" that reveals detailed company information
+        3. A button labeled "Sentiment Analysis" that shows market sentiment and social media analysis
+        
+        Format your response using proper HTML/markdown for interactive elements. Make sure charts are responsive
+        and buttons are clearly visible and functional. Each section should be collapsible for better user experience.
         `,
       },
       ...messages,
