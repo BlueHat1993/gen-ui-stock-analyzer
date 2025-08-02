@@ -18,7 +18,7 @@ export const HomePage = () => {
               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
               placeholder-gray-500 dark:placeholder-gray-400"
             value={state.query}
-            placeholder="Enter company name/domain..."
+            placeholder="Enter you query here..."
             onChange={({ target: { value } }) => actions.setQuery(value)}
             onKeyDown={(e) => {
               // make api call only when response loading is not in progress
